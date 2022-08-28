@@ -1,0 +1,59 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button menu="custom-menu-bar"></ion-menu-button>
+        </ion-buttons>
+
+        <ion-buttons slot="end">
+            <ion-back-button defaultHref="/categorias"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Lista de Compras</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <ion-list>
+        <ion-item *ngFor="let item of carrinho?.itens">
+            <ion-thumbnail slot="end">
+                <ion-img [src]="item.produto.imageUrl || 'assets/imgs/prod.jpg' "></ion-img>
+            </ion-thumbnail>
+
+            <ion-label>
+                <h2> {{ item.produto.nome }}</h2>
+                <p> {{ item.produto.preco | currency : 'BRL' }} </p>
+                <p style="display: flex;" class="ion-align-items-center">
+
+                    <ion-button (click)="decrementar(item.produto)" fill="clear" shape="round">
+                        <ion-icon slot="icon-only" name="remove"></ion-icon>
+                    </ion-button>
+
+                    <span>{{ item.quantidade }}</span>
+
+                    <ion-button (click)="incrementar(item.produto)" fill="clear" shape="round">
+                        <ion-icon slot="icon-only" name="add"></ion-icon>
+                    </ion-button>
+
+                    <ion-button (click)="remover(item.produto)" fill="clear" shape="round" color="medium">
+                        <ion-icon slot="icon-only" name="trash"></ion-icon>
+                    </ion-button>
+                </p>
+            </ion-label>
+
+        </ion-item>
+
+        <ion-item>
+            <ion-label *ngIf="Total >= 1">
+                <h1>Total {{ Total | currency : "BRL" }}</h1>
+            </ion-label>
+
+            <ion-label *ngIf="Total < 1">
+                <h1>Sua sacola está vazia.</h1>
+                <h3>Comece adicionando algo</h3>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+
+    <ion-button color="danger" expand="full" routerLink="/escolher-endereco" [disabled]="Total < 1">
+        Finalizar Compra
+    </ion-button>
+</ion-content>

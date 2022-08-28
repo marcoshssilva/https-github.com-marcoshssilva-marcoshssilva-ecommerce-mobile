@@ -1,0 +1,52 @@
+<ion-header class="ion-no-border ion-padding-horizontal ion-padding-top ion-margin-horizontal">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="home" text="" color="dark" mode="ios" icon="close-sharp" (click)="closeApp()"></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+    <ion-header mode="ios" colapse="condense" class="ion-no-border ion-margin-vertical ion-padding-horizontal">
+        <ion-toolbar>
+            <h1>
+                Meu<br>
+                E-Commerce<br>
+                Digital
+            </h1>
+        </ion-toolbar>
+        <ion-toolbar mode="ios">
+            <h3>Acesse sua Conta:</h3>
+        </ion-toolbar>
+    </ion-header>
+
+    <form #telaLogin="ngForm" (ngSubmit)="login()">
+        <ion-item>
+            <ion-icon name="person" position="fixed"></ion-icon>
+            <ion-input type="text" 
+                [(ngModel)]="dadosLogin.email" #email name="email" 
+                placeholder="seuemail@mail.com.br" email required
+            >
+            </ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-icon name="lock-closed" position="fixed"></ion-icon>
+            <ion-input type="password" 
+                [(ngModel)]="dadosLogin.senha" #senha name="senha" 
+                placeholder="digite sua senha" minlength="8" maxlength="40" required
+            >
+            </ion-input>
+        </ion-item>
+
+        <ion-button expand="block" fill="solid" shape="round" color="warning" class="ion-margin" 
+            type="submit" [disabled]="telaLogin.invalid"
+        >
+            Acessar
+        </ion-button>
+
+        <ion-button expand="full" fill="clear" color="primary" routerLink="/cadastro">
+            Novo por aqui?
+        </ion-button>
+    </form>
+</ion-content>

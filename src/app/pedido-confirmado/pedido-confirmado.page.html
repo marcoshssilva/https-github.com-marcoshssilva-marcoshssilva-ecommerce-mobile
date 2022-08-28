@@ -1,0 +1,97 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button menu="custom-menu-bar"></ion-menu-button>
+        </ion-buttons>
+
+        <ion-buttons slot="end">
+            <ion-back-button defaultHref="/escolher-pagamento"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Detalhes do pedido</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <ion-card class="ion-no-padding">
+        <ion-card-header>
+            <ion-card-title>Items do Pedido</ion-card-title>
+        </ion-card-header>
+
+        <ion-list>
+            <ion-item *ngFor="let item of pedido?.itens">
+                <ion-thumbnail slot="end" class="ion-no-padding">
+                    <ion-img [src]="item.produto.imageUrl || 'assets/imgs/prod.jpg' "></ion-img>
+                </ion-thumbnail>
+                <ion-label>
+                    <h1> {{item.produto.nome}} </h1>
+                    <p> {{item.quantidade}} </p>
+                    <p>{{item.produto.preco | currency : 'BRL'}} </p>
+                    <p>{{item.produto.preco * item.quantidade | currency : 'BRL'}} </p>
+                </ion-label>
+            </ion-item>
+
+            <ion-item slot="end">
+                <ion-label style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <h1>Total</h1>
+                    <h1> {{ Total | currency : 'BRL' }} </h1>
+                </ion-label>
+            </ion-item>
+        </ion-list>
+
+    </ion-card>
+
+    <ion-card class="ion-no-padding">
+        <ion-card-header>
+            <ion-card-title>Dados do Cliente</ion-card-title>
+        </ion-card-header>
+
+        <ion-item>
+            <ion-label>
+                <h2> {{ cliente?.nome }}</h2>
+                <h3> {{ cliente?.email }}</h3>
+                <h3> {{ cliente?.cpfOuCnpj }} </h3>
+            </ion-label>
+        </ion-item>
+
+    </ion-card>
+
+    <ion-card class="ion-no-padding">
+        <ion-card-header>
+            <ion-card-title>Endereço de entrega</ion-card-title>
+        </ion-card-header>
+
+        <ion-item>
+            <ion-label>
+                <h2> {{ pedido?.enderecoDeEntrega.logradouro }}, {{ pedido?.enderecoDeEntrega.numero }} </h2>
+                <h3> {{pedido?.enderecoDeEntrega.cidade.nome }} - {{ pedido?.enderecoDeEntrega.cidade.estado.nome }}
+                </h3>
+                <p> {{ pedido?.enderecoDeEntrega.cep }} </p>
+                <p> {{ pedido?.enderecoDeEntrega.bairro }}, {{ pedido?.enderecoDeEntrega?.complemento}} </p>
+            </ion-label>
+        </ion-item>
+    </ion-card>
+
+    <ion-card class="ion-no-padding">
+        <ion-card-header>
+            <ion-card-title>Forma de Pagamento</ion-card-title>
+        </ion-card-header>
+
+        <ion-item>
+            <ion-label *ngIf="pedido?.pagamento['@type'] == 'pagamentoComCartao' ">
+                <h3>Pagamento com Cartão</h3>
+                <p>Parcelas : {{ pedido?.pagamento.numeroDeParcelas }} </p>
+            </ion-label>
+
+            <ion-label *ngIf="pedido?.pagamento['@type'] == 'pagamentoComBoleto' ">
+                <h3>Boleto</h3>
+            </ion-label>
+        </ion-item>
+    </ion-card>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="checkout()" color="success">
+            <ion-icon name="bag-check-outline"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+
+</ion-content>

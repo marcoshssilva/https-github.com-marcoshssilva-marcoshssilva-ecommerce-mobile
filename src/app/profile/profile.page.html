@@ -1,0 +1,44 @@
+<ion-header [translucent]="true" [collapse]="true" class="ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button menu="custom-menu-bar"></ion-menu-button>
+        </ion-buttons>
+
+        <ion-buttons slot="end">
+            <ion-button routerLink="/carrinho-de-compras">
+                <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Perfil</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ion-header>
+        <ion-toolbar>
+
+            <ion-title class="ion-align-items-center">
+                <ion-avatar>
+                    <ion-img [src]="cliente?.imageUrl || 'assets/imgs/avatar-blank.png' "></ion-img>
+                    <ion-fab vertical="bottom" horizontal="center">
+                        <ion-fab-button (click)="abrirCamera()" [translucent]="true" mode="ios" color="danger">
+                            <ion-icon name="camera-outline" color="light"></ion-icon>
+                        </ion-fab-button>
+                    </ion-fab>
+                </ion-avatar>
+            </ion-title>
+
+        </ion-toolbar>
+
+        <ion-toolbar class="ion-no-margin-vertical">
+            <ion-title class="ion-text-center ion-text-capitalize">{{ cliente?.nome }}</ion-title>
+        </ion-toolbar>
+
+        <ion-toolbar class="ion-no-margin-vertical">
+            <ion-text>
+                <p class="ion-text-center">{{ cliente?.email }}</p>
+            </ion-text>
+        </ion-toolbar>
+    </ion-header>
+
+</ion-content>

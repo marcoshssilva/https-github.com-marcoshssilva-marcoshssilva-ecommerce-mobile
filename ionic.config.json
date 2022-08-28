@@ -1,0 +1,7 @@
+{
+  "name": "aplicativo-final",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

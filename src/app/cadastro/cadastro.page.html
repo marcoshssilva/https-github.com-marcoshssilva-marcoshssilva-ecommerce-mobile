@@ -1,0 +1,240 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar class="ion-padding-horizontal">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="home" icon="close-sharp" mode="ios" text=""></ion-back-button>
+        </ion-buttons>
+
+        <ion-button (click)="backSlide()" fill="clear" shape="round" slot="end">
+            <ion-icon slot="start" name="chevron-back"></ion-icon>
+            Voltar
+        </ion-button>
+
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content fullscreen>
+    <form #cadastro="ngForm" (ngSubmit)="cadastrarUsuario()">
+        <ion-slides #slider>
+            <!-- Tela de Cadastro 1 -->
+            <ion-slide>
+                <ion-list>
+                    <ion-list-header class="ion-text-start">
+                        <ion-label>
+                            <h1>Registre sua conta</h1>
+                        </ion-label>
+                    </ion-list-header>
+
+                    <ion-item>
+                        <ion-label position="stacked">Email</ion-label>
+                        <ion-input type="email" placeholder="fulano@mail.com" required email
+                            #email [(ngModel)]="clienteNovo.email" name="email"
+                        ></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position="stacked">Nome</ion-label>
+                        <ion-input type="text" placeholder="Fulano Silva da Costa" maxlength="120" minlength="5" required 
+                            #nome [(ngModel)]="clienteNovo.nome" name="nome"
+                        ></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position="stacked">Senha</ion-label>
+                        <ion-input type="password" placeholder="Digite uma senha segura" required maxlength="40" minlength="8" 
+                            #senha [(ngModel)]="clienteNovo.senha" name="senha"
+                        ></ion-input>
+                    </ion-item>
+
+                </ion-list>
+
+                <ion-button fill="clear" shape="round" class="ion-align-self-end"
+                    (click)="nextSlide()"
+                    *ngIf="cadastro.controls['nome']?.valid && cadastro.controls['senha']?.valid && cadastro.controls['email']?.valid">
+                    <ion-icon name="chevron-forward" slot="end"></ion-icon>
+                    Avançar
+                </ion-button>
+
+                <ion-button fill="clear" shape="round" class="ion-align-self-end"
+                    *ngIf="cadastro.controls['nome']?.invalid || cadastro.controls['senha']?.invalid || cadastro.controls['email']?.invalid">
+                    <ion-spinner name="dots"></ion-spinner>
+                </ion-button>
+            </ion-slide>
+
+            <!-- Tela de Cadastro 2-->
+            <ion-slide>
+                <ion-list>
+                    <ion-list-header class="ion-text-start">
+                        <ion-label>
+                            <h1>Contato</h1>
+                        </ion-label>
+                    </ion-list-header>
+
+                    <ion-item>
+                        <ion-label position="stacked">Telefone</ion-label>
+                        <ion-input type="tel" placeholder="digite apenas os números" 
+                            required pattern="(?:\()[0-9]{2}(?:\))\s?[0-9]{4,5}(?:-)[0-9]{4}$"
+                            #telefone1 [(ngModel)]="clienteNovo.telefone1" name="telefone1" (keyup)="formatarTelefone(telefone1.value, 1)"
+                        ></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position="floating">
+                            Telefone Reserva <strong>OPCIONAL</strong>
+                        </ion-label>
+                        <ion-input type="tel" pattern="(?:\()[0-9]{2}(?:\))\s?[0-9]{4,5}(?:-)[0-9]{4}$"
+                            #telefone2 [(ngModel)]="clienteNovo.telefone2" name="telefone2" (keyup)="formatarTelefone(telefone2.value, 2)"
+                        ></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position="floating">
+                            Telefone Reserva <strong>OPCIONAL</strong>
+                        </ion-label>
+                        <ion-input type="tel" pattern="(?:\()[0-9]{2}(?:\))\s?[0-9]{4,5}(?:-)[0-9]{4}$"
+                            #telefone3 [(ngModel)]="clienteNovo.telefone3" name="telefone3" (keyup)="formatarTelefone(telefone3.value, 3)"
+                        ></ion-input>
+                    </ion-item>
+                    
+                </ion-list>
+
+                <ion-button (click)="backSlide()" fill="clear" shape="round" class="ion-align-self-start">
+                    <ion-icon slot="start" name="chevron-back"></ion-icon>
+                    Voltar
+                </ion-button>
+
+                <ion-button fill="clear" shape="round" class="ion-align-self-end"
+                    (click)="nextSlide()"
+                    *ngIf="cadastro.controls['telefone1']?.valid && cadastro.controls['telefone2']?.valid && cadastro.controls['telefone3']?.valid">
+                    <ion-icon name="chevron-forward" slot="end"></ion-icon>
+                    Avançar
+                </ion-button>
+
+                <ion-button fill="clear" shape="round" class="ion-align-self-end"
+                    *ngIf="cadastro.controls['telefone1']?.invalid || cadastro.controls['telefone2']?.invalid || cadastro.controls['telefone3']?.invalid">
+                    <ion-spinner name="dots"></ion-spinner>
+                </ion-button>
+            </ion-slide>
+
+            <!-- Tela de Cadastro 3 -->
+            <ion-slide>
+                <ion-list>
+                    <ion-list-header>
+                        <ion-label class="ion-text-start">
+                            <h1>Seu Endereço</h1>
+                        </ion-label>
+                    </ion-list-header>
+
+                    <ion-item>
+                        <ion-label>Estado</ion-label>
+                        <ion-select placeholder="Selecione o seu estado" required #estado
+                            [(ngModel)]="clienteNovo.estadoId" name="estado" (ionChange)="atualizarCidades()"
+                        >
+                            <ion-select-option *ngFor="let item of estados" [value]="item.id">
+                                {{item.nome}}
+                            </ion-select-option>
+                
+                        </ion-select>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label>Cidade</ion-label>
+                        <ion-select placeholder="Marque a sua cidade" required 
+                            #cidade [(ngModel)]="clienteNovo.cidadeId" name="cidade"
+                        >
+                            <ion-select-option *ngFor="let item of cidades" [value]="item.id">
+                                {{item.nome}}
+                            </ion-select-option>
+                        </ion-select>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position="floating">CEP (apenas números)</ion-label>
+                        <ion-input type="tel" required pattern="^[0-9]{5}(?:-)[0-9]{3}$"
+                            #cep [(ngModel)]="clienteNovo.cep" name="cep"
+                        ></ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position="stacked">Logradouro</ion-label>
+                        <ion-input type="text" required minlength="5" maxlength="120" 
+                            #logradouro [(ngModel)]="clienteNovo.logradouro" name="logradouro"
+                        ></ion-input>
+                    </ion-item>
+
+                    <ion-grid fixed>
+                        <ion-row>
+                            <ion-col size="8">
+                                <ion-item>
+                                    <ion-label position="stacked">Bairro</ion-label>
+                                    <ion-input type="text" required maxlength="120" minlength="5" 
+                                        #bairro [(ngModel)]="clienteNovo.bairro" name="bairro"
+                                    ></ion-input>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col size="4">
+                                <ion-item>
+                                    <ion-label position="stacked">Número</ion-label>
+                                    <ion-input type="tel" required min="0" #numero 
+                                        [(ngModel)]="clienteNovo.numero" name="numero"
+                                    ></ion-input>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-list>
+
+                
+
+                <ion-button fill="clear" shape="round" class="ion-align-self-end"
+                    (click)="nextSlide()"
+                    *ngIf="cadastro.controls['estado']?.valid && cadastro.controls['cidade']?.valid && cadastro.controls['cep']?.valid && cadastro.controls['bairro']?.valid && cadastro.controls['numero']?.valid && cadastro.controls['logradouro']?.valid">
+                    <ion-icon name="chevron-forward" slot="end"></ion-icon>
+                    Avançar
+                </ion-button>
+
+                <ion-button fill="clear" shape="round" class="ion-align-self-end"
+                    *ngIf="cadastro.controls['estado']?.invalid || cadastro.controls['cidade']?.invalid || cadastro.controls['cep']?.invalid || cadastro.controls['bairro']?.invalid || cadastro.controls['numero']?.invalid || cadastro.controls['logradouro']?.invalid">
+                    <ion-spinner name="dots"></ion-spinner>
+                </ion-button>
+            </ion-slide>
+
+            <!-- Campo de Cadastro 4 -->
+            <ion-slide>
+                <ion-list>
+                    <ion-list-header>
+                        <ion-label class="ion-text-start ion-padding-end">
+                            <h1>Quase pronto!<br>Finalize com seu CPF ou CNPJ</h1>
+                        </ion-label>
+                    </ion-list-header>
+
+                    <ion-radio-group required #tipo [(ngModel)]="clienteNovo.tipo" name="tipo">
+                        <ion-item>
+                            <ion-label>Física</ion-label>
+                            <ion-radio value="1"></ion-radio>
+                        </ion-item>
+
+                        <ion-item>
+                            <ion-label>Jurídica</ion-label>
+                            <ion-radio value="2"></ion-radio>
+                        </ion-item>
+                    </ion-radio-group>
+
+                    <ion-item>
+                        <ion-label position="floating">CPF / CNPJ (apenas números)</ion-label>
+                        <ion-input type="tel" required #cpfOuCnpj [(ngModel)]="clienteNovo.cpfOuCnpj" name="cpfOuCnpj"
+                            [disabled]="tipo.value == null || tipo.value == '' "
+                        ></ion-input>
+                    </ion-item>
+
+                   <ion-button expand="full" shape="rounded" fill="clear" type="submit" [disabled]="cadastro.invalid" class="ion-margin-top">
+                       Finalizar o cadastro
+                   </ion-button>
+                </ion-list>
+
+            </ion-slide>
+
+        </ion-slides>
+    </form>
+
+</ion-content>

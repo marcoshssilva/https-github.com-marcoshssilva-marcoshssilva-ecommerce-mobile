@@ -1,0 +1,25 @@
+ion-content {
+    
+}
+
+ion-item {
+    ion-icon {
+        padding-right: 0.83rem;
+    }
+}
+
+ion-toolbar {
+    --opacity: 0;
+}
+
+ion-item {
+    --background: transparent;
+}
+
+ion-thumbnail {
+    margin: 0 auto;
+    margin-top: 0;
+    margin-bottom: 3rem;
+    min-width: 180px;
+    height: auto;
+}
